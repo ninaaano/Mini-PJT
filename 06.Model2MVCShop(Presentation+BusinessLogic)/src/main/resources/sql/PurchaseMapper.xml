@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="PurchaseMapper">
+
+
+	
+	<resultMap type="purchase" id="purchaseSelectMap">
+
+		<result jdbcType="NUMERIC" column="tran_no" property="tranNo" />
+
+		<result jdbcType="CHAR" column="payment_option"
+			property="paymentOption" />
+
+		<result jdbcType="VARCHAR" column="receiver_name"
+			property="receiverName" />
+
+		<result jdbcType="VARCHAR" column="receiver_phone"
+			property="receiverPhone" />
+
+		<result jdbcType="VARCHAR" column="dlvy_addr"
+			property="dlvyAddr" />
+
+		<result jdbcType="VARCHAR" column="dlvy_request"
+			property="dlvyRequest" />
+
+		<result jdbcType="CHAR" column="tran_status_code"
+			property="tranCode" />
+
+		<result jdbcType="DATE" column="order_date"
+			property="orderDate" />
+
+		<result jdbcType="VARCHAR" column="dlvy_date"
+			property="dlvyDate" />
+
+
+		
+		<association property="purchaseProd" javaType="product">
+
+			<id jdbcType="NUMERIC" column="prod_no" property="prodNo" />
+
+			<result jdbcType="VARCHAR" column="prod_name"
+				property="prodName" />
+
+			<result jdbcType="VARCHAR" column="prod_detail"
+				property="prodDetail" />
+
+			<result jdbcType="VARCHAR" column="manufacture_day"
+				property="manuDate" />
+
+			<result jdbcType="NUMERIC" column="price" property="price" />
+
+			<result jdbcType="VARCHAR" column="image_file"
+				property="fileName" />
+
+			<result jdbcType="DATE" column="prod_reg_date"
+				property="regDate" />
+
+			<result jdbcType="VARCHAR" column="TRAN_STATUS_CODE"
+				property="prodTranCode" />
+
+		</association>
+
+
+
+			<result jdbcType="INTEGER" column="TRAN_NO" property="tranNo" />
+
+			<result jdbcType="INTEGER" column="PROD_NO"
+				property="purchaseProd.prodNo" />
+
+			<result jdbcType="VARCHAR" column="BUYER_ID"
+				property="buyer.userId" />
+
+			<result jdbcType="CHAR" column="PAYMENT_OPTION"
+				property="paymentOption" />
+
+			<result jdbcType="VARCHAR" column="RECEIVER_NAME"
+				property="receiverName" />
+
+			<result jdbcType="VARCHAR" column="RECEIVER_PHONE"
+				property="receiverPhone" />
+
+			<result jdbcType="VARCHAR" column="DLVY_ADDR"
+				property="divyAddr" />
+
+			<result jdbcType="VARCHAR" column="DLVY_REQUEST"
+				property="divyRequest" />
+
+			<result jdbcType="CHAR" column="TRAN_STATUS_CODE"
+				property="tranCode" />
+
+			<result jdbcType="DATE" column="ORDER_DATE"
+				property="orderDate" />
+
+			<result jdbcType="DATE" column="DLVY_DATE" property="divyDate" />
+
+
+
+			
+			<association property="buyer" javaType="user">
+
+				<id jdbcType="VARCHAR" column="buyer_id" property="userId" />
+
+				<result jdbcType="VARCHAR" column="user_name"
+					property="userName" />
+
+				<result jdbcType="VARCHAR" column="password"
+					property="password" />
+
+				<result jdbcType="VARCHAR" column="role" property="role" />
+
+				<result jdbcType="VARCHAR" column="ssn" property="ssn" />
+
+				<result jdbcType="VARCHAR" column="cell_phone"
+					property="phone" />
+
+				<result jdbcType="VARCHAR" column="addr" property="addr" />
+
+				<result jdbcType="VARCHAR" column="email" property="email" />
+
+				<result jdbcType="DATE" column="user_reg_date"
+					property="regDate" />
+
+			</association>
+
+	</resultMap>
+
+
+	
+	<select id="findPurchase" resultMap="purchaseSelectMap"
+		parameterType="purchase">
+		selectt.TRAN_NO tranNo,
+		<!-- t.prod_no prodNo, -->
+
+		t.buyer_id buyer,t.PAYMENT_OPTION paymentOption,t.RECEIVER_NAME
+		receiverName,t.RECEIVER_PHONE receiverPhone,t.DLVY_ADDR
+		dlvyAddr,t.DLVY_REQUEST dlvyRequest,t.TRAN_STATUS_CODE
+		tranCode,t.ORDER_DATE orderDate,t.DLVY_DATE dlvyDate,p.PROD_NO
+		prod_no,p.PROD_NAME prod_name,p.PROD_DETAIL
+		prod_detail,p.MANUFACTURE_DAY manufacture_day,p.PRICE
+		price,p.IMAGE_FILE image_file,p.REG_DATE
+		prod_reg_date,t.TRAN_STATUS_CODE TRAN_STATUS_CODE,u.USER_ID
+		buyer_id,u.USER_NAME userName,u.PASSWORD password,u.ROLE role,u.SSN
+		ssn,u.CELL_PHONE cell_phone,u.ADDR addr,u.EMAIL email,u.REG_DATE
+		user_reg_datefrom TRANSACTION t, PRODUCT p, USERS uwhere t.prod_no =
+		p.prod_no AND t.buyer_id = u.user_id
+		<if test="tranNo != null">AND t.TRAN_NO=#{tranNo}</if>
+
+	</select>
+
+	<select id="getPurchaseList" parameterType="map"
+		resultMap="purchaseSelectMap">
+		SELECT *
+		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
+		FROM ( SELECT
+		t.tran_no, p.prod_no, t.order_date, t.tran_status_code
+		FROM transaction
+		t, product p, users u
+		WHERE t.prod_no = p.prod_no
+		AND t.buyer_id =
+		u.user_id
+		AND u.user_id = #{buyerId}
+		ORDER BY tran_no ) inner_table
+		WHERE ROWNUM <![CDATA[<=]]>
+		#{search.currentPage}*#{search.pageSize} )
+		WHERE row_seq BETWEEN
+		(#{search.currentPage}-1)*#{search.pageSize}+1
+		AND
+		#{search.currentPage}*#{search.pageSize}
+	</select>
+
+</mapper>
