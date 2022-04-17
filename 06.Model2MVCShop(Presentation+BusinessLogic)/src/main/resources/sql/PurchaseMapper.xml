@@ -4,173 +4,69 @@
 		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-
 <mapper namespace="PurchaseMapper">
-
-
-	
-	<resultMap type="purchase" id="purchaseSelectMap">
-
-		<result jdbcType="NUMERIC" column="tran_no" property="tranNo" />
-
-		<result jdbcType="CHAR" column="payment_option"
-			property="paymentOption" />
-
-		<result jdbcType="VARCHAR" column="receiver_name"
-			property="receiverName" />
-
-		<result jdbcType="VARCHAR" column="receiver_phone"
-			property="receiverPhone" />
-
-		<result jdbcType="VARCHAR" column="dlvy_addr"
-			property="dlvyAddr" />
-
-		<result jdbcType="VARCHAR" column="dlvy_request"
-			property="dlvyRequest" />
-
-		<result jdbcType="CHAR" column="tran_status_code"
-			property="tranCode" />
-
-		<result jdbcType="DATE" column="order_date"
-			property="orderDate" />
-
-		<result jdbcType="VARCHAR" column="dlvy_date"
-			property="dlvyDate" />
-
-
-		
-		<association property="purchaseProd" javaType="product">
-
-			<id jdbcType="NUMERIC" column="prod_no" property="prodNo" />
-
-			<result jdbcType="VARCHAR" column="prod_name"
-				property="prodName" />
-
-			<result jdbcType="VARCHAR" column="prod_detail"
-				property="prodDetail" />
-
-			<result jdbcType="VARCHAR" column="manufacture_day"
-				property="manuDate" />
-
-			<result jdbcType="NUMERIC" column="price" property="price" />
-
-			<result jdbcType="VARCHAR" column="image_file"
-				property="fileName" />
-
-			<result jdbcType="DATE" column="prod_reg_date"
-				property="regDate" />
-
-			<result jdbcType="VARCHAR" column="TRAN_STATUS_CODE"
-				property="prodTranCode" />
-
-		</association>
-
-
-
-			<result jdbcType="INTEGER" column="TRAN_NO" property="tranNo" />
-
-			<result jdbcType="INTEGER" column="PROD_NO"
-				property="purchaseProd.prodNo" />
-
-			<result jdbcType="VARCHAR" column="BUYER_ID"
-				property="buyer.userId" />
-
-			<result jdbcType="CHAR" column="PAYMENT_OPTION"
-				property="paymentOption" />
-
-			<result jdbcType="VARCHAR" column="RECEIVER_NAME"
-				property="receiverName" />
-
-			<result jdbcType="VARCHAR" column="RECEIVER_PHONE"
-				property="receiverPhone" />
-
-			<result jdbcType="VARCHAR" column="DLVY_ADDR"
-				property="divyAddr" />
-
-			<result jdbcType="VARCHAR" column="DLVY_REQUEST"
-				property="divyRequest" />
-
-			<result jdbcType="CHAR" column="TRAN_STATUS_CODE"
-				property="tranCode" />
-
-			<result jdbcType="DATE" column="ORDER_DATE"
-				property="orderDate" />
-
-			<result jdbcType="DATE" column="DLVY_DATE" property="divyDate" />
-
-
-
-			
-			<association property="buyer" javaType="user">
-
-				<id jdbcType="VARCHAR" column="buyer_id" property="userId" />
-
-				<result jdbcType="VARCHAR" column="user_name"
-					property="userName" />
-
-				<result jdbcType="VARCHAR" column="password"
-					property="password" />
-
-				<result jdbcType="VARCHAR" column="role" property="role" />
-
-				<result jdbcType="VARCHAR" column="ssn" property="ssn" />
-
-				<result jdbcType="VARCHAR" column="cell_phone"
-					property="phone" />
-
-				<result jdbcType="VARCHAR" column="addr" property="addr" />
-
-				<result jdbcType="VARCHAR" column="email" property="email" />
-
-				<result jdbcType="DATE" column="user_reg_date"
-					property="regDate" />
-
-			</association>
-
+ 	
+	<resultMap id="purchaseSelectMap" type="com.model2.mvc.service.domain.Purchase">
+		<result property="tranNo" column="tran_no" jdbcType="NUMERIC"/>
+		<result property="buyer.userId" column="buyer_id" jdbcType="VARCHAR"/>
+		<result property="purchaseProd.prodNo" column="prod_no" jdbcType="NUMERIC"/>
+		<result property="paymentOption" column="payment_option" jdbcType="VARCHAR"/>
+		<result property="receiverName" column="receiver_name" jdbcType="VARCHAR" />
+		<result property="receiverPhone" column="receiver_phone" jdbcType="VARCHAR"/>
+		<result property="divyAddr" column="demailaddr" jdbcType="VARCHAR"/>
+		<result property="divyRequest" column="dlvy_request" jdbcType="VARCHAR"/>
+		<result property="orderDate" column="order_date" jdbcType="DATE"/>
+		<result property="divyDate" column="dlvy_date" jdbcType="DATE"/>
+		<result property="tranCode" column="tran_status_code" jdbcType="VARCHAR"/>
+		<result property="count" column="count" jdbcType="INTEGER"/>
 	</resultMap>
-
-
 	
-	<select id="findPurchase" resultMap="purchaseSelectMap"
-		parameterType="purchase">
-		selectt.TRAN_NO tranNo,
-		<!-- t.prod_no prodNo, -->
-
-		t.buyer_id buyer,t.PAYMENT_OPTION paymentOption,t.RECEIVER_NAME
-		receiverName,t.RECEIVER_PHONE receiverPhone,t.DLVY_ADDR
-		dlvyAddr,t.DLVY_REQUEST dlvyRequest,t.TRAN_STATUS_CODE
-		tranCode,t.ORDER_DATE orderDate,t.DLVY_DATE dlvyDate,p.PROD_NO
-		prod_no,p.PROD_NAME prod_name,p.PROD_DETAIL
-		prod_detail,p.MANUFACTURE_DAY manufacture_day,p.PRICE
-		price,p.IMAGE_FILE image_file,p.REG_DATE
-		prod_reg_date,t.TRAN_STATUS_CODE TRAN_STATUS_CODE,u.USER_ID
-		buyer_id,u.USER_NAME userName,u.PASSWORD password,u.ROLE role,u.SSN
-		ssn,u.CELL_PHONE cell_phone,u.ADDR addr,u.EMAIL email,u.REG_DATE
-		user_reg_datefrom TRANSACTION t, PRODUCT p, USERS uwhere t.prod_no =
-		p.prod_no AND t.buyer_id = u.user_id
-		<if test="tranNo != null">AND t.TRAN_NO=#{tranNo}</if>
-
+	<!-- SQL : INSERT -->
+	<insert id="insertPurchase" parameterType="purchase" >
+	 	INSERT
+		INTO transaction ( tran_no , prod_no , buyer_id, payment_option , receiver_name, receiver_phone, demailaddr, dlvy_request, tran_status_code, order_date, dlvy_date ) 
+		VALUES(	seq_transaction_tran_no.nextval , #{purchaseProd.prodNo} , #{buyer.userId} , #{paymentOption:VARCHAR} , #{receiverName:VARCHAR} , #{receiverPhone:VARCHAR}, #{divyAddr:VARCHAR}, #{divyRequest:VARCHAR} , #{tranCode:VARCHAR}, SYSDATE, #{divyDate:DATE} )
+	</insert>
+	
+	<select id="findPurchase" parameterType="int" resultMap="purchaseSelectMap">
+		SELECT tran_no , prod_no , buyer_id, payment_option , receiver_name, receiver_phone, demailaddr, dlvy_request, TRIM(tran_status_code) tran_status_code, order_date, dlvy_date
+		FROM transaction 
+		WHERE tran_no = #{value}
 	</select>
-
-	<select id="getPurchaseList" parameterType="map"
-		resultMap="purchaseSelectMap">
-		SELECT *
-		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
-		FROM ( SELECT
-		t.tran_no, p.prod_no, t.order_date, t.tran_status_code
-		FROM transaction
-		t, product p, users u
-		WHERE t.prod_no = p.prod_no
-		AND t.buyer_id =
-		u.user_id
-		AND u.user_id = #{buyerId}
-		ORDER BY tran_no ) inner_table
-		WHERE ROWNUM <![CDATA[<=]]>
-		#{search.currentPage}*#{search.pageSize} )
-		WHERE row_seq BETWEEN
-		(#{search.currentPage}-1)*#{search.pageSize}+1
-		AND
-		#{search.currentPage}*#{search.pageSize}
+	
+	<select id="findPurchase2" parameterType="int" resultMap="purchaseSelectMap">
+		SELECT tran_no, TRIM(tran_status_code) tran_status_code
+		FROM transaction 
+		WHERE prod_no = #{value}
 	</select>
-
+	
+	<select id="getPurchaseList" parameterType="java.util.List" resultMap="purchaseSelectMap">
+		
+		SELECT purchase.* 
+		FROM ( SELECT ROW_NUMBER() OVER(order by user_id) rn , ts.tran_no, u.user_id, TRIM(NVL(ts.tran_status_code,0)) tran_status_code, COUNT(*)OVER() count 
+			   FROM users u, transaction ts 
+			   WHERE u.user_id = ts.buyer_id AND u.user_id = #{list[1]}) purchase 
+		WHERE rn BETWEEN #{list[0].startRowNum} AND #{list[0].endRowNum} 
+	
+	</select>
+	
+	<update id="updatePurchase" parameterType="purchase">
+		UPDATE transaction 
+		<set>
+			<if test="paymentOption != null"> payment_option = #{paymentOption} , </if>
+			<if test="receiverName != null"> receiver_name = #{receiverName} , </if>
+			<if test="receiverPhone != null"> receiver_phone = #{receiverPhone} , </if>
+			<if test="divyAddr != null"> demailAddr = #{divyAddr} , </if>
+			<if test="divyRequest != null"> dlvy_request = #{divyRequest} , </if>
+			<if test="divyDate != null"> dlvy_date = #{divyDate} , </if>
+		</set>
+		WHERE tran_no= #{tranNo}
+	</update>	
+	
+	<update id="updateTranCode" parameterType="purchase">
+		UPDATE transaction 
+		SET tran_status_code = #{tranCode}
+		WHERE tran_no = #{tranNo}
+	</update>
+	
 </mapper>

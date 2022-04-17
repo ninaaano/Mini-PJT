@@ -14,6 +14,8 @@
 		<result property="prodName" 				column="PROD_NAME" 					jdbcType="VARCHAR" />
 		<result property="prodNo" 			column="PROD_NO" 		jdbcType="VARCHAR" />
 		<result property="regDate" 		column="reg_date" 			jdbcType="DATE" />
+		<result property="proTranCode" column="tran_code" jdbcType="VARCHAR"/>
+		<result property="count" column="count" jdbcType="INTEGER"/>
 	</resultMap>
 	
 	<!-- SQL : INSERT -->
