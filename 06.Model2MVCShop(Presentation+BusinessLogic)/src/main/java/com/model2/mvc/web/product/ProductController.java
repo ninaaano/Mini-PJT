@@ -55,7 +55,7 @@ public class ProductController {
 	}
 	
 	@RequestMapping("/listProduct.do")
-	public String ListProduct(@ModelAttribute("Search") Search search,Model model,HttpServletRequest request) throws Exception{
+	public String ListProduct(@RequestParam("menu") String menu, @ModelAttribute("Search") Search search,Model model,HttpServletRequest request) throws Exception{
 		System.out.println("/listProduct.do");
 		if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);
@@ -67,6 +67,7 @@ public class ProductController {
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println(resultPage);
 		
+		model.addAttribute("menu", menu);
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
