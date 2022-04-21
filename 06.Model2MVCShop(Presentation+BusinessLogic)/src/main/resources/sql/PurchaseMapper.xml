@@ -9,7 +9,7 @@
 	<resultMap id="purchaseSelectMap" type="com.model2.mvc.service.domain.Purchase">
 		<result property="tranNo" column="tran_no" jdbcType="NUMERIC"/>
 		<result property="buyer.userId" column="buyer_id" jdbcType="VARCHAR"/>
-		<result property="purchaseProd.prodNo" column="prod_no" jdbcType="NUMERIC"/>
+		<result property="purchaseProd.prodNo" column="prod_no" jdbcType="INTEGER"/>
 		<result property="paymentOption" column="payment_option" jdbcType="VARCHAR"/>
 		<result property="receiverName" column="receiver_name" jdbcType="VARCHAR" />
 		<result property="receiverPhone" column="receiver_phone" jdbcType="VARCHAR"/>
@@ -22,10 +22,13 @@
 	</resultMap>
 	
 	<!-- SQL : INSERT -->
-	<insert id="insertPurchase" parameterType="purchase" >
-	 	INSERT
-		INTO transaction ( tran_no , prod_no , buyer_id, payment_option , receiver_name, receiver_phone, demailaddr, dlvy_request, tran_status_code, order_date, dlvy_date ) 
-		VALUES(	seq_transaction_tran_no.nextval , #{purchaseProd.prodNo} , #{buyer.userId} , #{paymentOption:VARCHAR} , #{receiverName:VARCHAR} , #{receiverPhone:VARCHAR}, #{divyAddr:VARCHAR}, #{divyRequest:VARCHAR} , #{tranCode:VARCHAR}, SYSDATE, #{divyDate:DATE} )
+	<insert id="addPurchase" parameterType="purchase" >
+	 		INSERT INTO transaction
+	 		(tran_no, prod_no, buyer_id, payment_option, receiver_name, receiver_phone, demailaddr, dlvy_request, tran_status_code, order_data, dlvy_date)
+	 		VALUES 
+	 		(seq_transaction_tran_no.NEXTVAL,#{purchaseProd.prodNo:INTEGER},
+	 		#{buyer.userId:VARCHAR},#{paymentOption:CHAR},#{receiverName:VARCHAR},#{receiverPhone:VARCHAR},
+	 		#{divyAddr:VARCHAR},#{divyRequest:VARCHAR},#{tranCode:CHAR},SYSDATE,#{divyDate:DATE} )
 	</insert>
 	
 	<select id="findPurchase" parameterType="int" resultMap="purchaseSelectMap">
@@ -40,15 +43,44 @@
 		WHERE prod_no = #{value}
 	</select>
 	
-	<select id="getPurchaseList" parameterType="java.util.List" resultMap="purchaseSelectMap">
+	<select id="getPurchaseList" parameterType="search" resultMap="purchaseSelectMap">
 		
-		SELECT purchase.* 
-		FROM ( SELECT ROW_NUMBER() OVER(order by user_id) rn , ts.tran_no, u.user_id, TRIM(NVL(ts.tran_status_code,0)) tran_status_code, COUNT(*)OVER() count 
-			   FROM users u, transaction ts 
-			   WHERE u.user_id = ts.buyer_id AND u.user_id = #{list[1]}) purchase 
-		WHERE rn BETWEEN #{list[0].startRowNum} AND #{list[0].endRowNum} 
+		SELECT *
+	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT tran_no, prod_no, buyer_id, payment_option, receiver_name, receiver_phone, demailaddr, dlvy_request, tran_status_code, order_data, dlvy_date
+											FROM transaction
+											<if test="searchCondition != null">
+												<where>
+												 BUYER_ID=#{buyer.userId}
+													<if test="searchCondition == 0 and searchKeyword !='' ">
+										 				tran_no = #{searchKeyword}
+													</if>
+													<if test="searchCondition == 1 and searchKeyword !='' ">
+										 				buyer_id = #{searchKeyword}
+													</if>
+												</where>
+											</if>
+											ORDER BY tran_no ) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 	
 	</select>
+	
+	<select  id="getTotalCount"  parameterType="search"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT tran_no, prod_no, buyer_id, payment_option, receiver_name, receiver_phone, demailaddr, dlvy_request, tran_status_code, order_data, dlvy_date
+						FROM transaction
+						<if test="searchCondition != null">
+							<where>
+								<if test="searchCondition == 0 and searchKeyword !='' ">
+						 			tran_no = #{searchKeyword}
+								</if>
+								<if test="searchCondition == 1 and searchKeyword !='' ">
+						 		buyer_id = #{searchKeyword}
+								</if>
+							</where>
+						</if> ) countTable						
+	 </select>
 	
 	<update id="updatePurchase" parameterType="purchase">
 		UPDATE transaction 

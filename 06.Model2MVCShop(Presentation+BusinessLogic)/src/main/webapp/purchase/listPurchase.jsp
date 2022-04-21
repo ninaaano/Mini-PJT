@@ -40,6 +40,32 @@
 				</tr>
 			</table>
 
+<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
+	<tr>
+		<td align="right">
+			<select name="searchCondition" class="ct_input_g" style="width:80px">
+				<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>상품번호</option>
+				<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>상품명</option>
+			</select>
+			<input type="text" name="searchKeyword" 
+						value="${! empty search.searchKeyword ? search.searchKeyword : ""}"  
+						class="ct_input_g" style="width:200px; height:20px" > 
+		</td>
+		<td align="right" width="70">
+			<table border="0" cellspacing="0" cellpadding="0">
+				<tr>
+					<td width="17" height="23"><img src="/images/ct_btnbg01.gif" width="17" height="23"></td>
+					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
+						<a href="javascript:fncGetUserList('1');">검색</a>
+					</td>
+					<td width="14" height="23"><img src="/images/ct_btnbg03.gif" width="14" height="23"></td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+
+
 			<table width="100%" border="0" cellspacing="0" cellpadding="0"
 				style="margin-top: 10px;">
 				<tr>
@@ -83,14 +109,13 @@
 				<c:set var="i" value="0" />
 				<c:forEach var="purchase" items="${list}">
 					<c:set var="i" value="${ i+1 }" />
-
-
 					<tr class="ct_list_pop">
-						<td align="center"><a
-							href="/getPurchase.do?tranNo=${purchase.tranNo }">${ i }</a></td>
+						<td align="center">${ i }</td>
 						<td></td>
-						<td align="left"><a
-							href="/getUser.do?userId=${purchase.buyer.userId}">${purchase.buyer.userId}</a>
+						<td align="left"><a href="/getPurchase.do?tranNo=${purchase.tranNo }"></a></td>
+						<td></td>
+						<td align="left">
+						<a href="/getUser.do?userId=${purchase.buyer.userId}">${purchase.buyer.userId}</a>
 
 						</td>
 						<td></td>
@@ -101,13 +126,13 @@
 						<td></td>
 						<td align="left"><c:choose>
 								<c:when test="${purchase.tranCode=='0' }">
-		구매완료
+		배송완료
 		</c:when>
 								<c:when test="${purchase.tranCode=='1' }">
 		배송중
 		</c:when>
 								<c:otherwise>
-		배송완료
+		구매완료
 		</c:otherwise>
 							</c:choose> </td>
 						<td></td>

@@ -62,10 +62,10 @@ public class PurchaseController {
 	}
 
 	@RequestMapping("/addPurchase.do")
-	public ModelAndView addPurchase( @ModelAttribute("purchase") Purchase purchase,
-			@RequestParam("buyerId") String buyerId, @RequestParam("prodNo") int prodNo) throws Exception {
+	public ModelAndView addPurchase( @ModelAttribute("purchase") Purchase purchase,HttpSession session,
+			 @RequestParam("prodNo") int prodNo) throws Exception {
 
-		purchase.setBuyer(userService.getUser(buyerId));
+		purchase.setBuyer((User)session.getAttribute("user"));
 		purchase.setPurchaseProd(productService.getProduct(prodNo));
 		purchase.setTranCode("1");
 		
@@ -81,6 +81,8 @@ public class PurchaseController {
 	
 	@RequestMapping("/listPurchase.do")
 	public ModelAndView listPurchase (@ModelAttribute("search") Search search, HttpSession session) throws Exception {
+		
+		System.out.println("/listPurchase.do");
 		
 		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
@@ -99,7 +101,7 @@ public class PurchaseController {
 		modelAndView.addObject("list",map.get("list"));
 		modelAndView.addObject("resultPage", resultPage);
 		modelAndView.addObject("search", search);
-		modelAndView.setViewName("forward:/purchase/listPurchase.jsp");
+		modelAndView.setViewName("/purchase/listPurchase.jsp");
 		
 		return modelAndView;
 	}

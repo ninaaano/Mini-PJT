@@ -1,10 +1,5 @@
 <%@ page contentType="text/html; charset=euc-kr" %>
-
-<%@ page import="com.model2.mvc.service.domain.Purchase" %>
-
-<%
-	Purchase vo = (Purchase)request.getAttribute("purchase");
-%>	
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
 <html>
