@@ -1,8 +1,12 @@
 package com.model2.mvc.web.product;
 
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,29 +42,56 @@ public class ProductController {
 	@Value("#{commonProperties['pageSize']}")
 	int pageSize;
 	
-	@RequestMapping(value="addProduct", method = RequestMethod.GET )
-	public String addProduct(@ModelAttribute("product") Product product ) throws Exception {
+	@RequestMapping(value="addProduct", method=RequestMethod.GET)
+	public String addProductView() throws Exception{
+		System.out.println("/product/addProduct : GET");
 		
-		System.out.println("/product/addProduct");
-		
-		productService.addProduct(product);
-						
-		return "forword:/product/addProduct.jsp";
-	
+		return "redirect:/product/addProductView.jsp";
 	}
+	
+	@RequestMapping(value="addProduct", method=RequestMethod.POST)
+	public String addProduct(@ModelAttribute("product") Product product, @RequestParam("manuDate") String manuDate) throws Exception {
+		System.out.println("/product/addProduct : POST");
+		
+		String date = manuDate.replace("-", "");
+		product.setManuDate(date);
+		productService.addProduct(product);
+
+		return "redirect:/product/addProductView.jsp";
+	}
+	
 	@RequestMapping(value = "getProduct", method = RequestMethod.GET)
-	public String getProduct(@RequestParam("prodNo") int prodNo, Model model) throws Exception{
+	public String getProduct(@RequestParam("prodNo") int prodNo, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		System.out.println("/product/getProduct");
 				
 		Product product = productService.getProduct(prodNo);
 		System.out.println(product);
 		model.addAttribute("product", product);
 		
+		String history;
+		Cookie cookie = null;
+		
+		Cookie[] cookies = request.getCookies();
+		if (cookies!=null && cookies.length > 0) {
+			for (int i = 0; i < cookies.length; i++) {
+				cookie = cookies[i];
+				if (cookie.getName().equals("history")) {
+            	
+					history = URLDecoder.decode(cookie.getValue(),"euc-kr");
+					history +=","+product;
+					System.out.println(history);
+					cookie = new Cookie("history",URLEncoder.encode(history,"euc-kr"));
+				}else {
+					cookie = new Cookie("history", Integer.toString(prodNo));
+				}
+			}
+		}
+		
 		return "forward:/product/getProduct.jsp";
 	}
 	
 	@RequestMapping(value = "listProduct")
-	public String ListProduct(@ModelAttribute("Search") Search search,Model model,HttpServletRequest request) throws Exception{
+	public String listProduct(@ModelAttribute("search") Search search,Model model,HttpServletRequest request,@RequestParam("menu") String menu) throws Exception{
 		System.out.println("/product/listProduct");
 		if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);
@@ -75,6 +106,7 @@ public class ProductController {
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
+		model.addAttribute("menu", menu);
 		
 		return "forward:/product/listProduct.jsp";
 	}
@@ -90,7 +122,7 @@ public class ProductController {
 			session.setAttribute("product", product);
 		}
 		
-		return "redirect:/getProduct.do?prodNo="+product.getProdNo();
+		return "redirect:/product/getProduct?prodNo="+product.getProdNo();
 	}
 	
 	@RequestMapping(value = "updateProduct",method = RequestMethod.GET)

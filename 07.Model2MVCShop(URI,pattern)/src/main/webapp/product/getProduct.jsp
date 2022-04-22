@@ -1,3 +1,5 @@
+<%@page import="com.model2.mvc.service.domain.Product" %>
+
 <%@ page contentType="text/html; charset=euc-kr"%>
 <%@ page pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -13,7 +15,7 @@
 
 <body bgcolor="#ffffff" text="#000000">
 
-	<form name="detailForm" method="post">
+
 
 		<table width="100%" height="37" border="0" cellpadding="0"
 			cellspacing="0">
@@ -178,7 +180,7 @@
 				</td>
 			</tr>
 		</table>
-	</form>
+	
 
 </body>
 </html>

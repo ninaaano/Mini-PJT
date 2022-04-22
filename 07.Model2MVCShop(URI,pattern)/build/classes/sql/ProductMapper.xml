@@ -7,13 +7,14 @@
 <mapper namespace="ProductMapper">
 
 	<resultMap id="productSelectMap" type="product">
-		<result property="fileName" 			column="IMAGE_FILE" 			jdbcType="VARCHAR"/>
-		<result property="manuDate"	column="MANUFACTURE_DAY" 		jdbcType="VARCHAR" />
-		<result property="price" 	column="PRICE" 		jdbcType="VARCHAR" />
-		<result property="prodDetail" 				column="PROD_DETAIL" 					jdbcType="VARCHAR" />
-		<result property="prodName" 				column="PROD_NAME" 					jdbcType="VARCHAR" />
-		<result property="prodNo" 			column="PROD_NO" 		jdbcType="VARCHAR" />
-		<result property="regDate" 		column="reg_date" 			jdbcType="DATE" />
+		<result property="prodNo" column="prod_no" jdbcType="NUMERIC"/>
+		<result property="prodName" column="prod_name" jdbcType="VARCHAR"/>
+		<result property="prodDetail" column="prod_detail" jdbcType="VARCHAR"/>
+		<result property="manuDate" column="manufacture_day" jdbcType="VARCHAR"/>
+		<result property="price" column="price" jdbcType="NUMERIC"/>
+		<result property="fileName" column="image_file" jdbcType="VARCHAR"/>
+		<result property="regDate" column="reg_date" jdbcType="DATE"/>
+		
 	</resultMap>
 	
 	<!-- SQL : INSERT -->
@@ -45,23 +46,23 @@
 	 </update>
 		 
 	<!-- SQL : SELECT LIST -->
-	<select  id="getProductList"  parameterType="search"	resultMap="productSelectMap">
-	  	SELECT *
-	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	SELECT prod_no, prod_name, prod_detail, MANUFACTURE_DAY ,price FROM product
-											<if test="searchCondition != null">
-												<where>
-													<if test="searchCondition == 0 and searchKeyword !='' ">
-										 				prod_no = #{searchKeyword}
-													</if>
-													<if test="searchCondition == 1 and searchKeyword !='' ">
-										 				prod_name = #{searchKeyword}
-													</if>
-												</where>
-											</if>
-											ORDER BY prod_no ) inner_table
-						WHERE ROWNUM &lt;= #{endRowNum} )
-		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	<select id = "getProductList" parameterType="search" resultMap="productSelectMap">
+	 	SELECT *
+	 	FROM ( SELECT inner_table.*, ROWNUM AS row_seq 
+	 			FROM ( SELECT *	FROM product
+	 							<if test="searchCondition != null">
+									<where>
+										<if test="searchCondition == 0 and searchKeyword !='' ">
+	 										prod_no = #{searchKeyword}
+	 									</if>
+										    <if test="searchCondition == 1 and searchKeyword !='' ">
+	 										prod_name like '%${searchKeyword}%'
+	 									</if>
+	 								</where>
+	 							</if>
+	 							 ORDER BY prod_no ) inner_table
+	 							WHERE ROWNUM &lt;= #{endRowNum} )
+				WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 	 </select>
 
 	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
