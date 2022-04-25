@@ -20,7 +20,7 @@
 	<!-- SQL : INSERT -->
 	<insert 	id="addProduct"		parameterType="product" >
 	 	INSERT
-		INTO product (prod_name,prod_datail,MANUFACTURE_DAY,price,IMAGE_FILE)
+		INTO product
 		VALUES(seq_product_prod_no.NEXTVAL,#{prodName}, #{prodDetail:VARCHAR},
             #{manuDate:VARCHAR}, #{price:NUMERIC}, #{fileName:VARCHAR}, SYSDATE)
 	 </insert>

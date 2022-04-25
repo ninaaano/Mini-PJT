@@ -1,6 +1,8 @@
 <%@ page contentType="text/html; charset=euc-kr"%>
 <%@ page pageEncoding="EUC-KR"%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,7 +15,7 @@
 </script>
 
 <script type="text/javascript">
-<!--
+
 	function fncAddProduct() {
 		//Form 유효성 검증
 		var name = document.detailForm.prodName.value;
@@ -42,13 +44,13 @@
 	function resetData() {
 		document.detailForm.reset();
 	}
-	-->
+
 </script>
 </head>
 
 <body bgcolor="#ffffff" text="#000000">
 
-	<form name="detailForm" method="post" commandName="simpleUploadForm" enctype="multipart/form-data">
+	<form name="detailForm" method="post" commandName="simpleUploadForm" >
 
 		<table width="100%" height="37" border="0" cellpadding="0"
 			cellspacing="0">
@@ -137,7 +139,7 @@
 				<td width="104" class="ct_write">상품이미지</td>
 				<td bgcolor="D6D6D6" width="1"></td>
 				<td class="ct_write01">
-					<input type="file" name="uploadFile" class="ct_input_g" style="width: 200px; height: 19px"
+					<input type="text" name="uploadFile" class="ct_input_g" style="width: 200px; height: 19px"
 					maxLength="13" multiple="multiple" /></td>
 			</tr>
 			<tr>

@@ -1,4 +1,5 @@
 <%@page import="com.model2.mvc.service.domain.Product" %>
+<%@page import="com.model2.mvc.service.domain.User"%>
 
 <%@ page contentType="text/html; charset=euc-kr"%>
 <%@ page pageEncoding="EUC-KR"%>
@@ -70,10 +71,9 @@
 				<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 			</tr>
 			<tr>
-				<td width="104" class="ct_write">상품이미지 <img
-					src="/images/ct_icon_red.gif" width="3" height="3"
-					align="absmiddle" />
-				</td>
+				<td width="104" class="ct_write">상품이미지</td>
+		<td bgcolor="D6D6D6" width="1"></td>
+		<td class="ct_write01"><img src="../images/uploadFiles/${product.fileName}"/></td>
 				<td bgcolor="D6D6D6" width="1"></td>
 				<td class="ct_write01">
 					<table border="0" cellspacing="0" cellpadding="0">
@@ -147,10 +147,10 @@
 				</td>
 				
 				<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-					<c:if test="${ empty menu }">
+					<c:if test="${user.role eq 'admin'}">
 						<a href="/product/updateProduct?prodNo=${ product.prodNo }">수정</a>
 					</c:if>
-					<c:if test="${ !empty menu }">
+					<c:if test="${user.role eq 'user'}">
 						<a href="/purchase/addPurchaseView?prodNo=${ product.prodNo }">구매</a>
 					</c:if> 
 				</td>
@@ -163,10 +163,10 @@
 					<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 				</td>
 				<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-					<c:if test="${ empty menu }">
+					<c:if test="${user.role eq 'admin'}">
 						<a href="/product/listProduct?menu=manage">완료</a>
 					</c:if>
-					<c:if test="${ !empty menu }">
+					<c:if test="${user.role eq 'user'}">
 						<a href="javascript:history.go(-1)">이전</a>
 					</c:if> 
 					

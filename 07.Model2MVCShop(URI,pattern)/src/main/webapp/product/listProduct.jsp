@@ -102,11 +102,11 @@
 			<td></td>
 			<td align="left">
 			
-			<c:if test="${menu=='search'}">
+			<c:if test="${menu=='search'}"> °í°´
 			<a href="/product/getProduct?prodNo=${product.prodNo}">${product.prodName }</a>
 			</c:if>
-			<c:if test="${menu=='manage'}">
-			<a href="/product/updateProductView?prodNo=${product.prodNo}">${product.prodName }</a>
+			<c:if test="${menu=='manage'}"> ¼öÁ¤
+			<a href="/product/updateProduct?prodNo=${product.prodNo}">${product.prodName }</a>
 			</c:if>	
 			
 			
