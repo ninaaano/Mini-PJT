@@ -60,6 +60,14 @@ public class ProductRestController {
 		
 		return prodNo;
 	}
+	
+	@RequestMapping(value = "json/deleteProduct/{prodNo}",method = RequestMethod.GET)
+	public Product deleteProduct(@RequestBody Product product, @PathVariable int prodNo) throws Exception {
+		System.out.println(prodNo);		
+		productService.deleteProduct(prodNo);
+		return product;
+		
+	}
 
 	
 	

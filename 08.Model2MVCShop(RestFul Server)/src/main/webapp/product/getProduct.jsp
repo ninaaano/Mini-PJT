@@ -149,7 +149,6 @@
 				<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
 					<c:if test="${user.role eq 'admin'}">
 						<a href="/product/updateProduct?prodNo=${ product.prodNo }">수정</a>
-						<a href="/product/updateProduct?prodNo=${ product.prodNo }">삭제</a>
 					</c:if>
 					<c:if test="${user.role eq 'user'}">
 						<a href="/purchase/addPurchaseView?prodNo=${ product.prodNo }">구매</a>

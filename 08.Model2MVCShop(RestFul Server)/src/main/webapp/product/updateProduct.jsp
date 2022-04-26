@@ -23,10 +23,13 @@ function resetData() {
 	document.detailForm.reset();
 }
 
-function deleteProduct() {
-	d
+<%--function deleteProduct() {
 	
-}
+	document.detailForm.action='/product/deleteProduct';
+	document.detailForm.submit();
+} 
+--%>
+
 
 </script>
 </head>
@@ -166,7 +169,7 @@ function deleteProduct() {
 						<img src="/images/ct_btnbg01.gif" width="17" height="23" />
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<a href="javascript:history.go(-1);">삭제</a>
+						<a href="/product/deleteProduct?prodNo=${ product.prodNo }">삭제</a>
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23" />

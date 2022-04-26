@@ -136,9 +136,11 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value = "deleteProduct",method = RequestMethod.GET)
-	public String deleteProduct(@RequestParam("prodNo")int prodNo) throws Exception {
+	public String deleteProduct(@RequestParam("prodNo") int prodNo, Model model) throws Exception {
+		
 		productService.deleteProduct(prodNo);
-		return "redirect:/product/getProduct?prodNo="+product.getProdNo();
+		
+		return "redirect:/product/listProduct?menu=manage";
 	}
 
 }
