@@ -50,9 +50,14 @@ public class ProductDaoImpl implements ProductDao{
 
 	}
 	
-	// °Ô½ÃÆÇ Page Ã³¸®¸¦ À§ÇÑ ÀüÃ¼Row(totalCount)  return
+	//(totalCount)  return
 	public int getTotalCount(Search search) throws Exception {
 		return sqlSession.selectOne("ProductMapper.getTotalCount", search);
 
+	}
+	
+	//DELETE
+	public Product deleteProduct(int prodNo) throws Exception{
+		return sqlSession.selectOne("ProductMapper.deleteProduct", prodNo);
 	}
 }

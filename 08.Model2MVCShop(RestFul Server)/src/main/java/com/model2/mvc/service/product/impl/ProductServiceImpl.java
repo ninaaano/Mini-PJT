@@ -52,4 +52,7 @@ public class ProductServiceImpl implements ProductService{
 		productDao.updateProduct(product);
 	}
 	
+	public Product deleteProduct(int prodNo) throws Exception{
+		return productDao.deleteProduct(prodNo);
+	}
 }

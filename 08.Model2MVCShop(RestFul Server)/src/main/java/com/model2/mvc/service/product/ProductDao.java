@@ -21,4 +21,7 @@ public interface ProductDao {
 	
 	public int getTotalCount(Search search) throws Exception ;
 	
+	// DELETE
+	public Product deleteProduct(int prodNo) throws Exception;
+	
 }

@@ -1,9 +1,13 @@
 package com.model2.mvc.web.product;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,23 +38,29 @@ public class ProductRestController {
 	}
 	
 	@RequestMapping(value="json/addProduct", method=RequestMethod.GET)
-	public String addProductView() throws Exception{
+	public Product addProductView(@RequestBody Product product) throws Exception{
 		
-		System.out.println("/product/json/addProduct : GET");
+		System.out.println("/product/json/addProduct : GET ");
 		
-		return "redirect:/product/addProductView.jsp";
+		productService.addProduct(product);
+		
+		return product;
 	}
 	
-	@RequestMapping(value="addProduct", method=RequestMethod.POST)
-	public String addProduct(@ModelAttribute("product") Product product, @RequestParam("manuDate") String manuDate) throws Exception {
-		System.out.println("/product/addProduct : POST");
+	@RequestMapping(value = "json/updateProduct",method = RequestMethod.POST)
+	public Product updateProduct(@RequestBody Product product, HttpSession session) throws Exception{
 		
-		String date = manuDate.replace("-", "");
-		product.setManuDate(date);
-		productService.addProduct(product);
-
-		return "/product/addProduct.jsp";
+		System.out.println("/product/json/updateProduct : POST ");
+		
+		Product prodNo = productService.getProduct(product.getProdNo());
+	
+		if(product.getProdNo()==product.getProdNo()){
+			session.setAttribute("product", product);
+		}
+		
+		return prodNo;
 	}
+
 	
 	
 	

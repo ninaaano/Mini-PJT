@@ -134,5 +134,11 @@ public class ProductController {
 		
 		return "forward:/product/updateProduct.jsp";
 	}
+	
+	@RequestMapping(value = "deleteProduct",method = RequestMethod.GET)
+	public String deleteProduct(@RequestParam("prodNo")int prodNo) throws Exception {
+		productService.deleteProduct(prodNo);
+		return "redirect:/product/getProduct?prodNo="+product.getProdNo();
+	}
 
 }
