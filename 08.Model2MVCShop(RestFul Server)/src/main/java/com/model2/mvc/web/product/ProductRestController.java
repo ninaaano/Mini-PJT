@@ -54,8 +54,8 @@ public class ProductRestController {
 		
 		Product prodNo = productService.getProduct(product.getProdNo());
 	
-		if(product.getProdNo()==product.getProdNo()){
-			session.setAttribute("product", product);
+		if(product.getProdNo()==prodNo.getProdNo()){
+			session.setAttribute("product", prodNo);
 		}
 		
 		return prodNo;

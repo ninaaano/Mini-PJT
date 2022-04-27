@@ -1,3 +1,4 @@
+<%@page import="com.model2.mvc.service.domain.User"%>
 <%@ page contentType="text/html; charset=EUC-KR"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -116,9 +117,18 @@
 					</td>
 					<td width="14" height="23"><img src="/images/ct_btnbg03.gif" width="14" height="23"></td>
 					<td width="30"></td>					
+					
+					<!--  구현해야함... 유저면 창 안뜨게하고 admin일때만 이전 버튼 눌러서 목록으로 돌아가게하기 -->
 					<td width="17" height="23"><img src="/images/ct_btnbg01.gif" width="17" height="23"></td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<a href="javascript:history.go(-1);">확인</a>
+					
+					<c:if test="${user.role eq 'admin'}">
+						<a href="javascript:history.go(-1);">취소</a>
+					</c:if>
+					<c:if test="${user.role eq 'user'}">
+						확인
+					</c:if> 
+					
 					</td>
 					<td width="14" height="23"><img src="/images/ct_btnbg03.gif" width="14" height="23"></td>
 				</tr>
