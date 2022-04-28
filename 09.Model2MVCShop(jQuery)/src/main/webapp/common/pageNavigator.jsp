@@ -20,3 +20,4 @@
 <c:if test="${ resultPage.endUnitPage < resultPage.maxPage }">
 		<a href="javascript:fncGetUserList('${resultPage.endUnitPage+1}')">ְִָּ ¢÷</a>
 </c:if>
+

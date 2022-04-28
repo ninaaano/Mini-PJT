@@ -43,7 +43,20 @@
 		 		$(window.parent.frames["rightFrame"].document.location).attr("href","/user/listUser");
 			}); 
 		});	
-		 
+		
+		// admin 계정에서만 보이는 목록
+		
+		$(function() {
+			$(".Depth03:contains('판매상품등록')").on("click",function(){
+				$(window.parent.frames["rightFrame"].document.location).attr("href","../product/addProductView.jsp");
+			});
+			
+			$(".Depth03:contains('판매상품관리')").on("click",function(){
+				$(window.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?menu=manage");
+			});
+		});
+			
+	 
 	</script>
 	
 </head>
@@ -93,12 +106,12 @@
 			<table  border="0" cellspacing="0" cellpadding="0" width="159">
 				<tr>
 					<td class="Depth03">
-						<a href="../product/addProductView.jsp;" target="rightFrame">판매상품등록</a>
+						판매상품등록
 					</td>
 				</tr>
 				<tr>
 					<td class="Depth03">
-						<a href="/listProduct.do?menu=manage"  target="rightFrame">판매상품관리</a>
+						판매상품관리
 					</td>
 				</tr>
 				<tr>
@@ -115,14 +128,14 @@
 		<table  border="0" cellspacing="0" cellpadding="0" width="159">
 			<tr>
 				<td class="Depth03">
-					<a href="/listProduct.do?menu=search" target="rightFrame">상 품 검 색</a>
+					<a href="/product/listProduct?menu=search" target="rightFrame">상 품 검 색</a>
 				</td>
 			</tr>
 			
 			<c:if test="${ !empty user && user.role == 'user'}">
 			<tr>
 				<td class="Depth03">
-					<a href="/listPurchase.do"  target="rightFrame">구매이력조회</a>
+					<a href="/purchase/listPurchase"  target="rightFrame">구매이력조회</a>
 				</td>
 			</tr>
 			</c:if>

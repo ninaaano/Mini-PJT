@@ -53,4 +53,43 @@ public class UserRestController {
 		
 		return dbUser;
 	}
+	@RequestMapping(value="json/addUser", method=RequestMethod.POST)
+	public User addUser(@RequestBody User user) throws Exception {
+		userService.addUser(user);
+		return user;
+	}
+	
+	@RequestMapping( value="json/updateUser", method=RequestMethod.GET )
+	public User updateUser( @PathVariable String userId) throws Exception{
+
+		System.out.println("/user/updateUser : GET");
+		//Business Logic
+		User user = userService.getUser(userId);
+		
+		return user;
+	}
+
+	@RequestMapping( value="json/updateUser", method=RequestMethod.POST )
+	public User updateUser(@RequestBody User user, HttpSession session) throws Exception{
+
+		System.out.println("/user/updateUser : POST");
+		//Business Logic
+				
+		// userService.updateUser(user);
+		User sessionId=userService.getUser(user.getUserId());
+		if(user.getUserId().equals(sessionId.getUserId())){
+			session.setAttribute("user", sessionId);
+		}
+		
+		return sessionId;
+	}
+	
+	
+	@RequestMapping( value="json/checkDuplication/{userId}", method=RequestMethod.POST )
+	public boolean checkDuplication(@PathVariable String userId ) throws Exception{
+		
+		System.out.println("/user/checkDuplication : POST");
+		
+		return userService.checkDuplication(userId);
+	}
 }
