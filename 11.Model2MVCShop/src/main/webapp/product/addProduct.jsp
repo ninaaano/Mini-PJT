@@ -66,7 +66,7 @@
 										<img src="../images/uploadFiles/${product.fileName[0]}"/>
 									</c:when>
 									<c:otherwise>
-										<img src="../images/logo-spring.png"/>
+										<img src="../images/uploadFiles/ÇÝ»ß.jpg"/>
 									</c:otherwise>
 								</c:choose>
 							</td>

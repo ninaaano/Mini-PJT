@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=EUC-KR" %>
 <%@ page pageEncoding="EUC-KR"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
 
@@ -80,13 +80,11 @@
 	  		<img src="../images/uploadFiles/${product.fileName}"/>
 	  		
 	  				<c:if test="${!empty product.fileName}">
-									<c:forEach var="file" items="${fileList}">
-										<img src="../images/uploadFiles/${file}"/>
-									</c:forEach>
-								</c:if>
-								<c:if test="${empty product.fileName}">
-								<img src="../images/ÇÝ»ß.jpg"/>
-								</c:if>
+						<img src="../images/uploadFiles/${file}"/>
+					</c:if>
+					<c:if test="${empty product.fileName}">
+						<img src="../images/ÇÝ»ß.jpg"/>
+					</c:if>
 		</div>
 		
 		<hr/>

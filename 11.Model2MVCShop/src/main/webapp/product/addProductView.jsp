@@ -60,7 +60,7 @@
 	 $(function() {
 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 		$( "button.btn.btn-primary" ).on("click" , function() {
-			fncAddUser();
+			fncAddProduct();
 		});
 	});	
 	
@@ -97,7 +97,7 @@
 		  <div class="form-group">
 		    <label for="password" class="col-sm-offset-1 col-sm-3 control-label">상품이름</label>
 		    <div class="col-sm-4">
-		      <input type="password" class="form-control" name="prodName" placeholder="상품명">
+		      <input type="text" class="form-control" name="prodName" placeholder="상품명">
 		    </div>
 		  </div>
 
@@ -105,7 +105,7 @@
 		  <div class="form-group">
 		    <label for="userName" class="col-sm-offset-1 col-sm-3 control-label">가격</label>
 		    <div class="col-sm-4">
-		      <input type="password" class="form-control" name="price" placeholder="가격">
+		      <input type="text" class="form-control" name="price" placeholder="가격">
 		    </div>
 		  </div>
 		  
@@ -130,7 +130,7 @@
 		  <div class="form-group">
 		    <label for="ssn" class="col-sm-offset-1 col-sm-3 control-label">상품이미지</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" name="uploadFile" placeholder="상품이미지">
+		      <input type="file" class="form-control" name="uploadFile" placeholder="상품이미지">
 		    </div>
 		  </div>
 		  

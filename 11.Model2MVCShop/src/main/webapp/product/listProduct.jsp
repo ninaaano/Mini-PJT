@@ -83,12 +83,7 @@
 									"Content-Type" : "application/json"
 								},
 								success : function(JSONData , status) {
-
-									//Debug...
-									//alert(status);
-									//Debug...
-									//alert("JSONData : \n"+JSONData);
-									
+						
 									var displayValue = "<h3>"
 																
 																+"상품명 : "+JSONData.prodName+"<br/>"
@@ -96,8 +91,7 @@
 																+"등록일 : "+JSONData.regDate+"<br/>"
 																
 																+"</h3>";
-									//Debug...									
-									//alert(displayValue);
+				
 									$("h3").remove();
 									$( "#"+prodNo+"" ).html(displayValue);
 								}
@@ -188,12 +182,12 @@
 			<c:set var="i" value="${ i+1 }" />
 			<tr>
 			  <td align="center">${ i }</td>
-			  <td align="left" title="Click : 상품정보확인">${product.prodName}</td>
+			  <td align="left" title="Click : 상품정보확인" data-value="${product.prodNo}">${product.prodName}</td>
 			  <td align="left">${product.price}</td>
 			  <td align="left">${product.regDate}</td>
 			  <td align="left">
 			  	<i class="glyphicon glyphicon-ok" id= "${product.prodNo}"></i>
-			  	<input type="hidden" value="${product.prodNo}">
+			  	<input type="hidden" >
 			  </td>
 			</tr>
           </c:forEach>
