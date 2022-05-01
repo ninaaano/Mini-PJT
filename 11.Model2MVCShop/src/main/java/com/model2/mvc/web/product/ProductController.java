@@ -115,12 +115,17 @@ public class ProductController {
 		System.out.println("/product/updateProduct");
 		productService.updateProduct(product);
 		
-		int prodNo=((Product)session.getAttribute("prodNo")).getProdNo();
+		Object productCandidate = session.getAttribute("product");
+		int prodNo = -1;
+		if(productCandidate != null && productCandidate instanceof Product) {
+			prodNo=((Product)productCandidate).getProdNo();
+		}
 	
 		if(prodNo==product.getProdNo()){
 			session.setAttribute("product", product);
 		}
 		
+		System.out.println("拭っ君君君君君君");
 		return "redirect:/product/getProduct?prodNo="+product.getProdNo();
 	}
 	
@@ -129,12 +134,13 @@ public class ProductController {
 		System.out.println("/product/updateProductView");
 		Product product = productService.getProduct(prodNo);
 		
+		
 		model.addAttribute("product", product);
 		
 		return "forward:/product/updateProduct.jsp";
 	}
 	
-	@RequestMapping(value = "deleteProduct",method = RequestMethod.GET)
+	@RequestMapping(value = "deleteProduct",method = RequestMethod.POST)
 	public String deleteProduct(@RequestParam("prodNo") int prodNo, Model model) throws Exception {
 		
 		productService.deleteProduct(prodNo);

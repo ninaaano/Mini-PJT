@@ -37,23 +37,6 @@
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
-	
-		//============= "수정"  Event 연결 =============
-		 $(function() {
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$( "button.btn.btn-primary" ).on("click" , function() {
-				fncUpdateProduct();
-			});
-			
-			$("a[href='#' ]").on("click" , function() {
-				$("form")[0].reset();
-			});
-			
-			$("a[href='##' ]").on("click" , function() {
-				fncdeleteProduct();
-			});
-			
-		});	
 			
 		function fncUpdateProduct() {
 			// Form 유효성 검증
@@ -61,9 +44,32 @@
 		}
 
 		function fncdeleteProduct(){
-			$("form").attr("method" , "GET").attr("action" , "/product/deleteProduct?prodNo=${ product.prodNo }").submit();
+			$("form").attr("method" , "POST").attr("action" , "/product/deleteProduct?prodNo=${ product.prodNo }").submit();
 			
 		}
+
+
+		 $(function() {
+			 $( "button.btn.btn-delete" ).on("click" , function() {		
+					fncdeleteProduct();
+			});
+			
+		});	
+		 
+		
+		 $(function() {
+				$( "button.btn.btn-primary" ).on("click" , function() {
+					fncUpdateProduct();
+				});
+			});				
+			
+			$(function() {
+				$( "button.btn.btn-reset" ).on("click" , function() {					
+					history.go(-1);
+				});
+			});	
+			
+
 	
 	</script>
 	
@@ -83,10 +89,20 @@
 	    </div>
 	    
 	    <!-- form Start /////////////////////////////////////-->
-		<form class="form-horizontal">
+		<form class="form-horizontal" method="post">
+		<input type="hidden" name="prodNo" value="${product.prodNo}"/>
 		
 		  <div class="form-group">
-		    <label for="userId" class="col-sm-offset-1 col-sm-3 control-label">상품이름</label>
+		    <label for="prodNo" class="col-sm-offset-1 col-sm-3 control-label">상품번호</label>
+		    <div class="col-sm-4">
+		      <input type="text" class="form-control" id="prodNo" name="prodNo" value="${product.prodNo}">
+		    </div>
+		  </div>
+		
+		
+		
+		  <div class="form-group">
+		    <label for="prodName" class="col-sm-offset-1 col-sm-3 control-label">상품이름</label>
 		    <div class="col-sm-4">
 		      <input type="text" class="form-control" id="prodName" name="prodName" value="${product.prodName}">
 
@@ -94,41 +110,41 @@
 		  </div>
 		
 		  <div class="form-group">
-		    <label for="password" class="col-sm-offset-1 col-sm-3 control-label">가격</label>
+		    <label for="price" class="col-sm-offset-1 col-sm-3 control-label">가격</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="price" name="price" value="${product.price }">
+		      <input type="text" class="form-control" id="price" name="price" value="${product.price}">
 		    </div>
 		  </div>
 
 		  
 		  <div class="form-group">
-		    <label for="userName" class="col-sm-offset-1 col-sm-3 control-label">이름</label>
+		    <label for="fileName" class="col-sm-offset-1 col-sm-3 control-label">상품이미지</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="userName" name="userName" value="${user.userName}" placeholder="변경회원이름">
+		    <input type="file" class="form-control" src="../images/uploadFiles/${product.fileName}"  value="${product.fileName}" >
 		    </div>
 		  </div>
 		  
 		  <div class="form-group">
-		    <label for="ssn" class="col-sm-offset-1 col-sm-3 control-label">주소</label>
+		    <label for="prodDetail" class="col-sm-offset-1 col-sm-3 control-label">상품상세정보</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="addr" name="addr"  value="${user.addr}" placeholder="변경주소">
+		      <input type="text" class="form-control" id="prodDetail" name="prodDetail"  value="${product.prodDetail}" >
 		    </div>
 		  </div>
 		  
 
 		  
 		   <div class="form-group">
-		    <label for="ssn" class="col-sm-offset-1 col-sm-3 control-label">이메일</label>
+		    <label for="manuDate" class="col-sm-offset-1 col-sm-3 control-label">제조일자</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="email" name="email" value="${user.email}" placeholder="변경이메일">
+		      <input type="text" class="form-control" id="manuDate" name="manuDate" value="${product.manuDate}" >
 		    </div>
 		  </div>
 		  
 		  <div class="form-group">
 		    <div class="col-sm-offset-4  col-sm-4 text-center">
 		      <button type="button" class="btn btn-primary"  >수 &nbsp;정</button>
-			  <a class="btn btn-primary btn" href="#" role="button">취 &nbsp;소</a>
-			  <a class="btn btn-primary btn" href="##" role="button">삭 &nbsp;제</a>
+			  <button type="button" class="btn btn-reset"  >취 &nbsp;소</button>
+			  <button type="button" class="btn btn-delete"  >삭 &nbsp;제</button>
 			  
 		    </div>
 		  </div>
