@@ -182,6 +182,12 @@
 			<c:set var="i" value="${ i+1 }" />
 			<tr>
 			  <td align="center">${ i }</td>
+			  <c:if test="${menu=='search'}"> 고객
+			<a href="/product/getProduct?prodNo=${product.prodNo}">${product.prodName }</a>
+			</c:if>
+			<c:if test="${menu=='manage'}"> 수정
+			<a href="/product/updateProduct?prodNo=${product.prodNo}">${product.prodName }</a>
+			</c:if>	
 			  <td align="left" title="Click : 상품정보확인" data-value="${product.prodNo}">${product.prodName}</td>
 			  <td align="left">${product.price}</td>
 			  <td align="left">${product.regDate}</td>

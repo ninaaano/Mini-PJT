@@ -38,10 +38,23 @@
 		//============= 회원정보수정 Event  처리 =============	
 		 $(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			 $( "button" ).on("click" , function() {
+			$( "button.btn.btn-primary" ).on("click" , function() {
 					self.location = "/product/updateProduct?prodNo=${product.prodNo}"
 				});
 		});
+		
+		 $(function() {
+				$( "button.btn.btn-reset" ).on("click" , function() {					
+					self.location = "/product/listProduct"
+				});
+			});	
+		 
+		 $(function() {
+				$( "button.btn.btn-addpurchase" ).on("click" , function() {					
+					self.location = "/purchase/addPurchaseView?prodNo=${ product.prodNo }"
+				});
+			});	
+		
 		
 	</script>
 	
@@ -112,7 +125,16 @@
 		
 		<div class="row">
 	  		<div class="col-md-12 text-center ">
-	  			<button type="button" class="btn btn-primary">상품정보수정</button>
+	  				<c:if test="${user.role eq 'admin'}">
+						<button type="button" class="btn btn-primary">상품정보수정</button>
+					</c:if>
+					<c:if test="${ !empty user && user.role == 'user'}">
+						<button type="button" class="btn btn-addpurchase">구매하기</button>
+					</c:if> 
+				
+						<button type="button" class="btn btn-reset">뒤로가기</button>
+					
+					
 	  		</div>
 		</div>
 		
