@@ -90,10 +90,10 @@
 		
 		<div class="row">
 	  		<div class="col-xs-4 col-md-2 "><strong>ªÛ«∞¿ÃπÃ¡ˆ</strong></div>
-	  		<img src="../images/uploadFiles/${product.fileName}"/>
+	  		
 	  		
 	  				<c:if test="${!empty product.fileName}">
-						<img src="../images/uploadFiles/${file}"/>
+						<img src="../images/uploadFiles/${product.fileName}"/>
 					</c:if>
 					<c:if test="${empty product.fileName}">
 						<img src="../images/«›ªﬂ.jpg"/>
