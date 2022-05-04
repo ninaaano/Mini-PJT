@@ -138,6 +138,14 @@
 			$( "a:contains('상 품 검 색')" ).on("click" , function() {
 					self.location = "/product/listProduct?menu=search"
 			});
+			
+		
+	 	 });
+	 	 
+	 	 $(function() {
+	 		$("a:contains('구매이력조회')").on("click" , function() {
+				self.location = "/purchase/listPurchase"
+			}); 
 		 	
 	 	 });
 		

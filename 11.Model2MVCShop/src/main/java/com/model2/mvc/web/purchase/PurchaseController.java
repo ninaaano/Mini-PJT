@@ -80,7 +80,7 @@ public class PurchaseController {
 		return new ModelAndView("forward:/purchase/getPurchase.jsp","purchase",purchaseService.getPurchase(tranNo));
 	}
 	
-	@RequestMapping("/listPurchase.do")
+	@RequestMapping(value = "listPurchase")
 	public ModelAndView listPurchase (@ModelAttribute("search") Search search, HttpSession session) throws Exception {
 		
 		System.out.println("/listPurchase.do");
