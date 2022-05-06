@@ -31,6 +31,13 @@
 	 		#{divyAddr:VARCHAR},#{divyRequest:VARCHAR},#{tranCode:CHAR},SYSDATE,#{divyDate:DATE} )
 	</insert>
 	
+	<select 	id="getPurchase"	parameterType="int"	resultMap="purchaseSelectMap">
+		SELECT
+		*	
+		FROM transaction
+		WHERE tran_no = #{value}
+	 </select>
+	
 	<select id="findPurchase" parameterType="int" resultMap="purchaseSelectMap">
 		SELECT tran_no , prod_no , buyer_id, payment_option , receiver_name, receiver_phone, demailaddr, dlvy_request, TRIM(tran_status_code) tran_status_code, order_date, dlvy_date
 		FROM transaction 
@@ -47,16 +54,14 @@
 		
 		SELECT *
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	SELECT tran_no, prod_no, buyer_id, payment_option, receiver_name, receiver_phone, demailaddr, dlvy_request, tran_status_code, order_data, dlvy_date
-											FROM transaction
+	  					FROM		(	SELECT * FROM transaction
 											<if test="searchCondition != null">
 												<where>
-												 BUYER_ID=#{buyer.userId}
 													<if test="searchCondition == 0 and searchKeyword !='' ">
 										 				tran_no = #{searchKeyword}
 													</if>
 													<if test="searchCondition == 1 and searchKeyword !='' ">
-										 				buyer_id = #{searchKeyword}
+										 				buyer_id like '%${searchKeyword}%'
 													</if>
 												</where>
 											</if>
